@@ -1,0 +1,78 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 1000,
+  "height": 400,
+  "title": "Malaysia Unemployment Rate By State Across Year",
+  "data": {
+       "url": "https://x1aoy6ng.github.io/FIT3179Week9Homework/malaysia_state_sex_filter.csv"
+    },
+    "params": [
+        {
+            "name": "selected_year",
+            "value": 2020,
+            "bind": {
+                "input": "select", 
+                "options": [2016, 2017, 2018, 2019, 2020],
+                "name": "Select year: "
+            }
+        }
+    ],
+    "transform": [
+        {"filter": "datum.year == selected_year"},
+        {
+            "aggregate": [
+            {
+                "op": "sum", 
+                "field": "unemployment_rate_percentage", 
+                "as": "total_unemployment_rate"
+            }
+        ], 
+        "groupby": ["state"]}
+    ],
+    "layer": [
+        {
+            "mark": {
+                "type": "bar",
+                "color": "#5fb086"
+            },
+            "encoding": {
+                "x": {
+                    "field": "state",
+                    "type": "nominal",
+                    "axis": {
+                        "title": "State",
+                        "labelFontSize": 12,
+                        "labelPadding": 10
+                    },
+                    "sort": {
+                        "field": "total_unemployment_rate",
+                        "order": "descending"
+                    }
+                },
+                "y": {
+                    "field": "total_unemployment_rate",
+                    "type": "quantitative",
+                    "axis": {"title": "Unemployment Rate (%)"},
+                     "scale": {"domain": [0, 20]}
+                },
+                "tooltip": [
+                    {"field": "state", "type": "nominal", "title": "State"},
+                    {"field": "total_unemployment_rate", "type": "quantitative", "title": "Total Unemployment Rate (%)", "format": ".2f"}
+                ]
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "align": "center",
+                "dy": -6,
+                "color": "black"
+            },
+            "encoding": {
+                "x": {"field": "state", "type": "nominal"},
+                "y": {"field": "total_unemployment_rate", "type": "quantitative"},
+                "text": {"field": "total_unemployment_rate", "type": "quantitative", "format": ".2f"}
+            }
+        }
+    ]
+}
