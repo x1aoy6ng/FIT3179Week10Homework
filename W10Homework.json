@@ -2,7 +2,6 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 1000,
   "height": 400,
-  "title": "Malaysia Unemployment Rate By State Across Year",
   "data": {
        "url": "https://x1aoy6ng.github.io/FIT3179Week9Homework/malaysia_state_sex_filter.csv"
     },
@@ -27,7 +26,17 @@
                 "as": "total_unemployment_rate"
             }
         ], 
-        "groupby": ["state"]}
+        "groupby": ["state"]},
+        {
+            "window": [
+                {
+                    "op": "rank",
+                    "as": "rank"
+                }],
+                "sort": [
+                    {"field": "total_unemployment_rate", "order": "descending"}]
+        },
+        {"filter": "datum.rank <= 5"}   
     ],
     "layer": [
         {
