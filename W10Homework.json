@@ -30,7 +30,7 @@
         {
             "window": [
                 {
-                    "op": "rank",
+                    "op": "row_number",
                     "as": "rank"
                 }],
                 "sort": [
